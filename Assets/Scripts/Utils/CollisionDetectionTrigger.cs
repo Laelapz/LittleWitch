@@ -8,24 +8,24 @@ public class CollisionDetectionTrigger : MonoBehaviour
     [SerializeField] private string LimitByTag = "";
 
     [Space(10f)]
-    public UnityEvent<Collider> CallOnTriggerEnter;
-    public UnityEvent<Collider> CallOnTriggerExit;
+    public UnityEvent<Collider2D> CallOnTriggerEnter;
+    public UnityEvent<Collider2D> CallOnTriggerExit;
     public UnityEvent<GameObject> CallOnTriggerEnterWithObject;
     public UnityEvent<GameObject> CallOnTriggerExitWithObject;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         CallEvent(CallOnTriggerEnter, other);
         CallEvent(CallOnTriggerEnterWithObject, other.gameObject);
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit2D(Collider2D other)
     {
         CallEvent(CallOnTriggerExit, other);
         CallEvent(CallOnTriggerExitWithObject, other.gameObject);
     }
 
-    private void CallEvent(UnityEvent<Collider> unityEvent, Collider parameter)
+    private void CallEvent(UnityEvent<Collider2D> unityEvent, Collider2D parameter)
     {
         if (_layerMask != 0 && !_layerMask.Includes(parameter.gameObject.layer)) return;
         if (LimitByTag != "" && parameter.tag != LimitByTag) return;

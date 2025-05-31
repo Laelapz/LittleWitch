@@ -10,22 +10,15 @@ public class PlayerController : MonoBehaviour, IDamageable
     private Rigidbody2D _rb;
     private Collider _collider;
     private SpriteRenderer _visual;
-    private bool _targable = true;
+
+    [SerializeField] private InventorySystem _inventorySystem;
 
     private Vector3 _inputVector;
     public static GameObject Player;
     public static event Action OnPlayerDies;
 
     [Header("Animation")]
-    private int _walkingHorizontalAnimation;
-    private int _idleAnimation;
-    private int _spikeAttackAnimation;
-    private int _enteringShadowModeAnimation;
-    private int _leavingShadowModeAnimation;
-    private int _walkingShadowModeAnimation;
-    private int _idleShadowModeAnimation;
-
-    private Animator _animator;
+    private PlayerAnimationHandler _animator;
 
     [Header("Interaction")]
     private InteractionController _interactionController;
@@ -36,7 +29,6 @@ public class PlayerController : MonoBehaviour, IDamageable
     
     public int CurrentHealth => _healthController.Health;
 
-    public bool Targable { get => _targable; private set => _targable = value; }
 
     [Header("Audio")]
     
@@ -69,13 +61,9 @@ public class PlayerController : MonoBehaviour, IDamageable
         _rb = GetComponent<Rigidbody2D>();
         _collider = GetComponent<CapsuleCollider>();
         _interactionController = GetComponent<InteractionController>();
-        _animator = GetComponentInChildren<Animator>();
+        _animator = GetComponentInChildren<PlayerAnimationHandler>();
         _visual = GetComponentInChildren<SpriteRenderer>();
         Player = gameObject;
-
-        _walkingHorizontalAnimation = Animator.StringToHash("WalkingHorizontal");
-        _idleAnimation = Animator.StringToHash("Idle");
-        _spikeAttackAnimation = Animator.StringToHash("Attack");
     }
 
     private void OnEnable()
@@ -101,27 +89,19 @@ public class PlayerController : MonoBehaviour, IDamageable
     {
         if (!_isMovementEnable) return;
         DetermineFacingDirection();
-        //PlayAnimation();
     }
 
     private void PlayAnimation()
     {
         if (_isAttacking) return;
 
-        if (_inputVector.magnitude > .1f)
-        {
-            _animator.Play(_walkingHorizontalAnimation);
-        }
-            
-        else
-        {
-            _animator.Play(_idleShadowModeAnimation);
-        }
+        _animator.SetWalking(_inputVector);
     }
 
     private void FixedUpdate()
     {
         ApplyMovement();
+        PlayAnimation();
     }
 
     private void OnDisable()
@@ -172,11 +152,11 @@ public class PlayerController : MonoBehaviour, IDamageable
         //attack
     }
 
-    private float GetCurrentAnimationLength(string stateName)
-    {
-        var clip = _animator.runtimeAnimatorController.animationClips.FirstOrDefault(x => x.name == stateName);
-        return clip != null ? clip.length : 0f;
-    }
+    //private float GetCurrentAnimationLength(string stateName)
+    //{
+    //    var clip = _animator.runtimeAnimatorController.animationClips.FirstOrDefault(x => x.name == stateName);
+    //    return clip != null ? clip.length : 0f;
+    //}
 
     public void DoDamage(int damageAmount, float radius, float range, bool recoveryMana = false)
     {
@@ -227,7 +207,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     {
         Vector3 knockbackDirection = (transform.position - origin).normalized;
         Vector3 stopMove = Vector3.up * _rb.linearVelocity.y;
-        _animator.Play(_idleAnimation);
+        _animator.SetIdle();
 
         _rb.AddForce(stopMove, ForceMode2D.Impulse);
         _rb.AddForce(_knockbackStrenght * intensity * _rb.mass * knockbackDirection, ForceMode2D.Impulse);
@@ -259,10 +239,6 @@ public class PlayerController : MonoBehaviour, IDamageable
     //    }
     //}
 
-    public void ToggleTarget(bool toggle)
-    {
-        _targable = toggle;
-    }
     #endregion
 
     #region Movement
@@ -313,6 +289,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         var input = context.ReadValue<Vector2>();
         _inputVector = input.ToVector3().normalized;
         _combatDirection = (_inputVector == Vector3.zero) ? _combatDirection : _inputVector.normalized;
+
     }
 
     #endregion
@@ -353,6 +330,15 @@ public class PlayerController : MonoBehaviour, IDamageable
     public void ToggleCollision(bool enable)
     {
         _collider.enabled = enable;
+    }
+
+    #endregion
+
+    #region Inventory
+
+    public void GetItem(InventoryItemData itemData)
+    {
+        _inventorySystem.Add(itemData);
     }
 
     #endregion

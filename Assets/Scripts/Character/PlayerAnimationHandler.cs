@@ -1,15 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAnimationHandler : MonoBehaviour
 {
-    private Animator _animator;
+    [SerializeField] private Animator _animator;
     private Rigidbody _rigidbody;
 
     private void Awake()
     {
-        _animator = GetComponent<Animator>();
+        //_animator = GetComponent<Animator>();
     }
 
     public void SetIdle()
@@ -41,5 +42,11 @@ public class PlayerAnimationHandler : MonoBehaviour
         _animator.SetBool("IsIdle", false);
         _animator.SetBool("IsRunning", false);
         _animator.SetBool("IsRolling", false);
+    }
+
+    internal void SetWalking(Vector3 inputVector)
+    {
+        _animator.SetFloat("MovementX", inputVector.x);
+        _animator.SetFloat("MovementY", inputVector.z);
     }
 }
