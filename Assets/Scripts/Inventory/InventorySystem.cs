@@ -1,14 +1,17 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class InventorySystem : MonoBehaviour
 {
+    [SerializeField] private GameObject _inventoryMenu;
+    [SerializeField] private InventoryUIHandler _inventoryUIHandler;
     private Dictionary<InventoryItemData, InventoryItem> m_itemDictionary;
-    public List<InventoryItem> inventory;
+    public List<InventoryItem> Inventory;
 
     private void Awake()
     {
-        inventory = new List<InventoryItem>();
+        Inventory = new List<InventoryItem>();
         m_itemDictionary = new Dictionary<InventoryItemData, InventoryItem>();
     }
 
@@ -30,8 +33,9 @@ public class InventorySystem : MonoBehaviour
         else
         {
             InventoryItem newItem = new InventoryItem(itemData);
-            inventory.Add(newItem);
+            Inventory.Add(newItem);
             m_itemDictionary.Add(itemData, newItem);
+            _inventoryUIHandler.SpawnInventoryItem(newItem);
         }
     }
 
@@ -43,9 +47,14 @@ public class InventorySystem : MonoBehaviour
         
             if(value.stackSize <= 0)
             {
-                inventory.Remove(value);
+                Inventory.Remove(value);
                 m_itemDictionary.Remove(itemData);
             }
         }
+    }
+
+    public void ToggleInventory()
+    {
+        _inventoryMenu.gameObject.SetActive(!_inventoryMenu.gameObject.activeSelf);
     }
 }
