@@ -28,7 +28,7 @@ public class InventoryUIHandler : MonoBehaviour, ISaveable
     private void Awake()
     {
         Instance = this;
-        //_giveItemBtn.onClick.AddListener(delegate { SpawnInventoryItem(); });
+
         SetInventorySlots();
         inventoryData = LoadGame<InventoryData>();
         
@@ -93,6 +93,32 @@ public class InventoryUIHandler : MonoBehaviour, ISaveable
         item.transform.SetParent(_draggablesTransform);
     }
 
+    public InventoryUISlots[] GetSlots()
+    {
+        return _inventorySlots;
+    }
+
+    public void ReloadInventoryFromSave()
+    {
+        foreach (var slot in _inventorySlots)
+        {
+            if (slot.myItem != null)
+            {
+                Destroy(slot.myItem.gameObject);
+                slot.myItem = null;
+            }
+        }
+
+        inventoryData = LoadGame<InventoryData>();
+
+        foreach (var item in inventoryData.itens)
+        {
+            SpawnInventoryItem(item);
+        }
+    }
+
+    #region SaveInfo
+
     public void SaveGame()
     {
         List<InventoryItem> itensToSave = new List<InventoryItem>();
@@ -134,4 +160,6 @@ public class InventoryUIHandler : MonoBehaviour, ISaveable
 
         public List<InventoryItem> itens;
     }
+
+    #endregion
 }

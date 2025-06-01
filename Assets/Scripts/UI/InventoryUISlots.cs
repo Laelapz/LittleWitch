@@ -12,13 +12,16 @@ public class InventoryUISlots : MonoBehaviour, IPointerClickHandler
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             if (InventoryUIHandler.CarriedItem == null) return;
+
             SetItem(InventoryUIHandler.CarriedItem);
         }
     }
 
     public void SetItem(ItemUI item)
     {
+        print("Teste" + InventoryUIHandler.CarriedItem);
         InventoryUIHandler.CarriedItem = null;
+
 
         item.activeSlot.myItem = null;
         item.myItem.slotIndex = slotIndex;

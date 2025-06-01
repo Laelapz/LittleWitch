@@ -18,7 +18,6 @@ public class InteractionController : MonoBehaviour
         var objects = Physics2D.OverlapCircleAll(transform.position, _radius);
         foreach (var selected in objects)
         {
-            print(selected);
             if (selected.TryGetComponent(out IInteractable<PlayerController> interactable))
             {
                 interactable.Interact(_mediator);

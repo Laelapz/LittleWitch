@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8772f1da230c26438479663e1549a24, type: 3}
-  m_Name: SO_FrogLeg
+  m_Name: SO_Bug
   m_EditorClassIdentifier: 
   id: 0
-  displayName: FrogLeg
-  icon: {fileID: 21300000, guid: e0a7fb47c7111464f866363e7a3f47da, type: 3}
+  displayName: Bug
+  icon: {fileID: 21300000, guid: 4043a37a958048f4a9402cf4f7c6157f, type: 3}
   prefab: {fileID: 0}

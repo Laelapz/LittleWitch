@@ -18,7 +18,7 @@ TagManager:
   - 
   - 
   - Player
-  - 
+  - Enemy
   - 
   - 
   - 
@@ -40,6 +40,24 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Ground
+    uniqueID: 1554695407
+    locked: 0
+  - name: WalkInFront
+    uniqueID: 3360975635
+    locked: 0
+  - name: Collision
+    uniqueID: 2989203149
+    locked: 0
+  - name: Player
+    uniqueID: 3913973639
+    locked: 0
+  - name: WalkBehind
+    uniqueID: 2316904011
+    locked: 0
+  - name: Decor
+    uniqueID: 4216841423
     locked: 0
   m_RenderingLayers:
   - Default
