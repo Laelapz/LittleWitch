@@ -7,6 +7,7 @@ public class InventoryItem
 {
     public InventoryItemData data;
     public int stackSize;
+    public int slotIndex = -1;
 
     public InventoryItem(InventoryItemData source)
     {
@@ -24,4 +25,8 @@ public class InventoryItem
         stackSize--;
     }
 
+    public void SetSlotIndex(int index)
+    {
+        slotIndex = index;
+    }
 }

@@ -57,4 +57,19 @@ public class InventorySystem : MonoBehaviour
     {
         _inventoryMenu.gameObject.SetActive(!_inventoryMenu.gameObject.activeSelf);
     }
+
+    public bool SaveData<T>(string relativePath, T data, bool Encrypted)
+    {
+        throw new NotImplementedException();
+    }
+
+    public T LoadData<T>(string relativePath, bool Encrypted)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool DeleteData(string relativePath)
+    {
+        throw new NotImplementedException();
+    }
 }

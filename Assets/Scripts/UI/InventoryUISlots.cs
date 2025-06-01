@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 public class InventoryUISlots : MonoBehaviour, IPointerClickHandler
 {
     public ItemUI myItem;
+    public int slotIndex;
 
 
     public void OnPointerClick(PointerEventData eventData)
@@ -11,7 +12,6 @@ public class InventoryUISlots : MonoBehaviour, IPointerClickHandler
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             if (InventoryUIHandler.CarriedItem == null) return;
-            //if (InventoryUIHandler.CarriedItem.name != this.name) return;
             SetItem(InventoryUIHandler.CarriedItem);
         }
     }
@@ -21,6 +21,7 @@ public class InventoryUISlots : MonoBehaviour, IPointerClickHandler
         InventoryUIHandler.CarriedItem = null;
 
         item.activeSlot.myItem = null;
+        item.myItem.slotIndex = slotIndex;
 
         myItem = item;
         myItem.activeSlot = this;

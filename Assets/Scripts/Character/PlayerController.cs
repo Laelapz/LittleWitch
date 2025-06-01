@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem;
 using Utils;
 
@@ -340,7 +341,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     {
         _inventorySystem.Add(itemData);
     }
-
     #endregion
+
 }
 
